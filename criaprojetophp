@@ -1,0 +1,105 @@
+#!/bin/bash
+ echo "Script com permissão 711"
+ echo "Para mudar logue como 'root' e execute o comando 'chmod'"
+ #####################################################
+ #  Este projeto visa facilitar a criação de         #
+ #  projetos em de sites em php                      #
+ #####################################################
+ #  Nesta primeira parte perguntamos ao usuário      #
+ #  Qual é o nome do projeto que ele deseja!         #
+ #####################################################                                           
+ read -p "Digite o nome do progeto: " NOMEDOPROJETO ;
+ ##################################################### 
+ #  Aqui verificamos se o usuario digitou o nome!    #
+ #  A opção -z significa se está NULL                #
+ #  A opção -n significa se não está NULL            #
+ #####################################################
+ if [ -z $NOMEDOPROJETO ];
+  then
+    echo "Nome vazio..."
+    echo "Cuidado! Reexecute o comando ... "    
+  else
+	 case $NOMEDOPROJETO in
+             *)
+                echo "Criando projeto: $NOMEDOPROJETO"
+		mkdir /var/www/html/sites/$NOMEDOPROJETO
+		echo "Pasta do Projeto Criada ..."
+                echo "Criando subpasta do projeto..."
+		mkdir /var/www/html/sites/$NOMEDOPROJETO/php
+		mkdir /var/www/html/sites/$NOMEDOPROJETO/css
+		mkdir /var/www/html/sites/$NOMEDOPROJETO/js
+		mkdir /var/www/html/sites/$NOMEDOPROJETO/sql
+		mkdir /var/www/html/sites/$NOMEDOPROJETO/html
+		mkdir /var/www/html/sites/$NOMEDOPROJETO/imagens
+		mkdir /var/www/html/sites/$NOMEDOPROJETO/geral
+		echo "Atribuindo proprietario e grupo para o apache ..."
+		read -p "Qual grupo e proprietario você deseja atribuir o projeto?[vazio = www-data] :?" NOMEDAATRIBUICAO
+		if [ -z $NOMEDAATRIBUICAO ];
+		 then
+		  echo "Atribuindo www-data(padrão) para grupo e proprietário ..."
+                chown -R www-data.www-data /var/www/html/sites/$NOMEDOPROJETO
+		  echo "Fim da atribuição de grupo e proprietário ..."
+		else
+		echo "Atribuindo $NOMEDAATRIBUICAO para grupo e proprietário ..."
+		chown -R $NOMEDAATRIBUICAO.$NOMEDAATRIBUICAO /var/www/html/sites/$NOMEDOPROJETO
+		fi
+	        read -p "Escolha uma permissao: (1)755,(2)775,(3)777 [vazio = 775] :?" NUMPERMISSAO
+                case $NUMPERMISSAO in
+			1)
+		echo "Adicionando permissão: ($NUMPERMISSAO)755 ao projeto"
+		chmod 755 -R /var/www/html/sites/$NOMEDOPROJETO
+                chmod 755 -R /var/www/html/sites/$NOMEDOPROJETO/php
+                chmod 755 -R /var/www/html/sites/$NOMEDOPROJETO/css
+                chmod 755 -R /var/www/html/sites/$NOMEDOPROJETO/js
+                chmod 755 -R /var/www/html/sites/$NOMEDOPROJETO/sql
+                chmod 755 -R /var/www/html/sites/$NOMEDOPROJETO/html
+                chmod 755 -R /var/www/html/sites/$NOMEDOPROJETO/imagens
+                chmod 755 -R /var/www/html/sites/$NOMEDOPROJETO/geral
+				;;
+		2)
+                echo "Adicionando permissão: ($NUMPERMISSAO)775 ao projeto"
+                chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO
+                chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/php
+                chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/css
+                chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/js
+                chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/sql
+                chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/html
+                chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/imagens
+                chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/geral
+                                ;;
+		3)
+                echo "Adicionando permissão Recursivamente: ($NUMPERMISSAO)777 ao projeto"
+                chmod 777 -R /var/www/html/sites/$NOMEDOPROJETO
+                chmod 777 -R /var/www/html/sites/$NOMEDOPROJETO/php
+                chmod 777 -R /var/www/html/sites/$NOMEDOPROJETO/css
+                chmod 777 -R /var/www/html/sites/$NOMEDOPROJETO/js
+                chmod 777 -R /var/www/html/sites/$NOMEDOPROJETO/sql
+                chmod 777 -R /var/www/html/sites/$NOMEDOPROJETO/html
+                chmod 777 -R /var/www/html/sites/$NOMEDOPROJETO/imagens
+                chmod 777 -R /var/www/html/sites/$NOMEDOPROJETO/geral
+                                ;;
+		*)
+		echo "Atribuindo permissão 775(padrão) de execução e escrita ..."
+		chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO
+		chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/php
+		chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/css
+		chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/js
+		chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/sql
+		chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/html
+		chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/imagens
+		chmod 775 -R /var/www/html/sites/$NOMEDOPROJETO/geral
+				;;
+		esac
+		echo "Criando arquivos padroẽs: index.php, index.html, style.css ..."
+		echo "Criando o arquivo php padrão ..."
+                touch /var/www/html/sites/$NOMEDOPROJETO/php/index.php
+		echo "Criando o arquivo html padrão ..."
+		touch /var/www/html/sites/$NOMEDOPROJETO/html/index.html
+		echo "Criando o arquivo css padrão ..."
+		touch /var/www/html/sites/$NOMEDOPROJETO/css/style.css
+		
+
+	
+ esac
+ fi
+ echo "Fim da construção"
