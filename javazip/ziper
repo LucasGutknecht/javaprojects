@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Iniciando a inpeção do JAR..."
+jar -ft /home/scripts/java/javazip/jars/ziper.jar
+java -jar /home/scripts/java/javazip/jars/ziper.jar
